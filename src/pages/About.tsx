@@ -1,4 +1,5 @@
 import FadeContent from "../components/reactbits/FadeContent";
+import { asset } from "../utils/asset";
 import "../styles/about.css";
 
 const FAQ = [
@@ -50,7 +51,7 @@ export default function About() {
           </div>
           <img
             className="manifesto__doodle"
-            src="/brand/doodle.png"
+            src={asset("/brand/doodle.png")}
             alt="hand-written notes: hopefully you remember what you ordered cause I don't write description. stop trying to define, it's for fun. no meaning, just energy."
           />
         </section>

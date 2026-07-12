@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { asset } from "../utils/asset";
 import "./Footer.css";
 
 export default function Footer() {
@@ -7,7 +8,7 @@ export default function Footer() {
       <div className="footer__row">
         <div className="footer__brand">
           <Link to="/" className="footer__logo" aria-label="Untitled — home">
-            <img src="/brand/logo-red-outline.png" alt="" />
+            <img src={asset("/brand/logo-red-outline.png")} alt="" />
           </Link>
           <span className="footer__scrawl">no meaning, just energy.</span>
         </div>

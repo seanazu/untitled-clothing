@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { asset } from "../utils/asset";
 import "./StyleShowcase.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -9,19 +10,19 @@ const SLIDE_SECONDS = 5;
 
 const SLIDES = [
   {
-    src: "/images/style-1.webp",
+    src: asset("/images/style-1.webp"),
     num: "01",
     title: "Heavyweight cotton",
     body: "340gsm, washed and enzyme-softened until it stopped arguing. Holds its shape for years.",
   },
   {
-    src: "/images/style-2.webp",
+    src: asset("/images/style-2.webp"),
     num: "02",
     title: "Cut to move",
     body: "Oversized through the shoulder, tapered where it counts. It moves before you do.",
   },
   {
-    src: "/images/style-3.webp",
+    src: asset("/images/style-3.webp"),
     num: "03",
     title: "Small runs only",
     body: "Numbered drops, no restocks. When it's gone, it never existed.",

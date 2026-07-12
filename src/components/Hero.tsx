@@ -4,13 +4,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import SplitText from "./reactbits/SplitText";
 import LiveClock from "./LiveClock";
+import { asset } from "../utils/asset";
 import "./Hero.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const FRAME_COUNT = 85;
 const framePath = (i: number) =>
-  `/hero-seq/frame-${String(i + 1).padStart(3, "0")}.webp`;
+  asset(`/hero-seq/frame-${String(i + 1).padStart(3, "0")}.webp`);
 
 /**
  * Scroll-scrubbed image sequence: the hero pins and the emblem reveals

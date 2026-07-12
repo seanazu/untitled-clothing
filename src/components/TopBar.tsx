@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { asset } from "../utils/asset";
 import "./TopBar.css";
 
 interface Props {
@@ -12,7 +13,7 @@ export default function TopBar({ onMenuOpen }: Props) {
   return (
     <header className="topbar">
       <Link to="/" className="topbar__logo" aria-label="Untitled — home">
-        <img src="/brand/logo-red-outline.png" alt="" />
+        <img src={asset("/brand/logo-red-outline.png")} alt="" />
       </Link>
       <div className="topbar__actions">
         <button type="button" className="topbar__action" onClick={openDrawer}>

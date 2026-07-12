@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { getLenis } from "../hooks/useSmoothScroll";
+import { asset } from "../utils/asset";
 import "./MenuOverlay.css";
 
 interface Props {
@@ -48,7 +49,7 @@ export default function MenuOverlay({ open, onClose, onSearchOpen }: Props) {
       <div className="menu-overlay__head">
         <img
           className="menu-overlay__logo"
-          src="/brand/logo-red-outline.png"
+          src={asset("/brand/logo-red-outline.png")}
           alt=""
           aria-hidden="true"
         />
