@@ -1,0 +1,31 @@
+.showcase {
+  padding: 2rem 0 4rem;
+}
+
+.showcase__heading-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 var(--page-padding) 2rem;
+}
+
+.showcase__heading {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.showcase__link {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-bright);
+  white-space: nowrap;
+}
+
+.showcase__link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,130 @@
+.monument {
+  position: relative;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  padding: 7rem var(--page-padding) 6rem;
+}
+
+.monument__head {
+  max-width: 640px;
+}
+
+.monument__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0 0 0.75rem;
+}
+
+.monument__heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.6vw, 3.6rem);
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.monument__scrawl {
+  font-family: var(--font-scrawl);
+  color: var(--color-accent-bright);
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  margin: 0.9rem 0 0;
+  transform: rotate(-2deg);
+  width: fit-content;
+}
+
+.monument__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 4rem;
+}
+
+/* ---- light editorial card overrides (no boxes, no chrome) ---- */
+
+.monument__card .product-card__frame {
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  transition: border-color 0.35s ease;
+}
+
+.monument__card:hover .product-card__frame {
+  border-color: rgba(212, 33, 31, 0.5);
+}
+
+.monument__card .product-card__desc {
+  margin-top: -0.2rem;
+}
+
+/* size picker: quiet text row instead of boxed squares */
+.monument__card .size-picker {
+  gap: 1rem;
+}
+
+.monument__card .size-picker label {
+  width: auto;
+  height: auto;
+  padding: 0.1rem 0;
+  border: none;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  background: none;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+.monument__card .size-picker label:hover {
+  color: var(--color-text);
+  border-bottom-color: var(--color-muted);
+}
+
+.monument__card .size-picker input:checked + label {
+  background: none;
+  color: var(--color-text);
+  border-bottom-color: var(--color-accent-bright);
+}
+
+/* add button: underlined text action instead of a heavy block */
+.monument__card .product-card__add {
+  justify-content: space-between;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  background: none;
+  padding: 0.7rem 0.1rem;
+  color: var(--color-text);
+  letter-spacing: 0.12em;
+}
+
+.monument__card .product-card__add::after {
+  content: "→";
+  font-family: var(--font-body);
+}
+
+.monument__card .product-card__add:hover:not(:disabled) {
+  background: none;
+  color: var(--color-accent-bright);
+  border-bottom-color: var(--color-accent-bright);
+}
+
+.monument__card .product-card__add:disabled {
+  color: var(--color-muted);
+  opacity: 1;
+}
+
+@media screen and (max-width: 900px) {
+  .monument__cards {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    gap: 3rem;
+  }
+
+  .monument {
+    padding-top: 5rem;
+  }
+}

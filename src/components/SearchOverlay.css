@@ -1,0 +1,111 @@
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 12vh var(--page-padding) 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.search-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-overlay__panel {
+  width: min(640px, 100%);
+  background: var(--color-bg-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+  transform: translateY(-8px);
+  transition: transform 0.25s ease;
+}
+
+.search-overlay.is-open .search-overlay__panel {
+  transform: translateY(0);
+}
+
+.search-overlay__bar {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.search-overlay__input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  padding: 1.1rem 1.25rem;
+}
+
+.search-overlay__input::placeholder {
+  color: var(--color-muted);
+}
+
+.search-overlay__close {
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  font-size: 1.4rem;
+  padding: 0 1.25rem;
+  cursor: pointer;
+}
+
+.search-overlay__close:hover {
+  color: var(--color-text);
+}
+
+.search-overlay__results {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.search-overlay__empty {
+  padding: 1.5rem 1.25rem;
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-scrawl);
+  font-size: 1.2rem;
+}
+
+.search-overlay__result {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 1.25rem;
+  transition: background 0.15s ease;
+}
+
+.search-overlay__result:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.search-overlay__result img {
+  width: 44px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.search-overlay__result-name {
+  font-size: 0.9rem;
+}
+
+.search-overlay__result-price {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
