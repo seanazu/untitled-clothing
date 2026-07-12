@@ -36,18 +36,15 @@ export default function Hero() {
         if (!img?.complete || img.naturalWidth === 0) return;
         const cw = canvas.width;
         const ch = canvas.height;
-        // Portrait canvases (mobile) fit to width instead of covering — the
-        // frames are 16:9, so covering a tall narrow viewport zooms in hard
-        // and crops away most of the frame. Letterboxing into the dark bg
-        // reads far better than that.
-        const scale =
-          cw < ch
-            ? cw / img.naturalWidth
-            : Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+        const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
         const dw = img.naturalWidth * scale;
         const dh = img.naturalHeight * scale;
+        // The emblem sits in the right half of the 16:9 frames. On portrait
+        // screens the cover-crop discards most of the width, so anchor the
+        // crop toward the emblem instead of dead center.
+        const focusX = cw < ch ? 0.72 : 0.5;
         ctx.clearRect(0, 0, cw, ch);
-        ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+        ctx.drawImage(img, (cw - dw) * focusX, (ch - dh) / 2, dw, dh);
       };
 
       const resize = () => {

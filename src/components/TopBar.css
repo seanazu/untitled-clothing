@@ -23,9 +23,14 @@
 
 .topbar__logo img {
   display: block;
-  height: 30px;
+  height: 38px;
   width: auto;
-  filter: drop-shadow(0 0 10px rgba(212, 33, 31, 0.3));
+  filter: brightness(1.5) drop-shadow(0 0 12px rgba(212, 33, 31, 0.55));
+  transition: filter 0.25s ease;
+}
+
+.topbar__logo:hover img {
+  filter: brightness(1.8) drop-shadow(0 0 18px rgba(212, 33, 31, 0.8));
 }
 
 .topbar__actions {

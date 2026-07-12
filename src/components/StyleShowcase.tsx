@@ -11,18 +11,23 @@ const SLIDE_SECONDS = 5;
 const SLIDES = [
   {
     src: asset("/images/style-1.webp"),
+    // where the subject's face sits in each frame, so the portrait
+    // crop on mobile keeps it in view instead of slicing it off
+    pos: "45% 25%",
     num: "01",
     title: "Heavyweight cotton",
     body: "340gsm, washed and enzyme-softened until it stopped arguing. Holds its shape for years.",
   },
   {
     src: asset("/images/style-2.webp"),
+    pos: "46% 30%",
     num: "02",
     title: "Cut to move",
     body: "Oversized through the shoulder, tapered where it counts. It moves before you do.",
   },
   {
     src: asset("/images/style-3.webp"),
+    pos: "50% 20%",
     num: "03",
     title: "Small runs only",
     body: "Numbered drops, no restocks. When it's gone, it never existed.",
@@ -85,6 +90,7 @@ export default function StyleShowcase() {
             src={slide.src}
             alt=""
             loading="lazy"
+            style={{ objectPosition: slide.pos }}
             className={
               "style-showcase__bg" + (i === active ? " is-active" : "")
             }

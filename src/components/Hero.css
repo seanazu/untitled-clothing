@@ -123,6 +123,8 @@
   .hero__top {
     grid-template-columns: 1fr;
     gap: 0.6rem;
+    /* clear the fixed topbar logo */
+    padding-top: 4.5rem;
   }
 
   .hero__clock {

@@ -12,9 +12,10 @@ interface Props {
 }
 
 const LINKS = [
-  { num: "01", label: "Shop", to: "/products", sub: "All products · New arrivals" },
-  { num: "02", label: "Collections", to: "/collections", sub: "Void Drop · Everyday Static" },
-  { num: "03", label: "About", to: "/about", sub: "The non-story · FAQ" },
+  { num: "01", label: "Home", to: "/", sub: "The main page · Start over" },
+  { num: "02", label: "Shop", to: "/products", sub: "All products · New arrivals" },
+  { num: "03", label: "Collections", to: "/collections", sub: "Void Drop · Everyday Static" },
+  { num: "04", label: "About", to: "/about", sub: "The non-story · FAQ" },
 ];
 
 export default function MenuOverlay({ open, onClose, onSearchOpen }: Props) {
