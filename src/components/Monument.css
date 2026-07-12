@@ -119,9 +119,24 @@
 
 @media screen and (max-width: 900px) {
   .monument__cards {
-    grid-template-columns: 1fr;
-    max-width: 440px;
-    gap: 3rem;
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 1.25rem;
+    margin: 4rem calc(var(--page-padding) * -1) 0;
+    padding: 0 var(--page-padding) 0.5rem;
+  }
+
+  .monument__cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  .monument__card-wrap {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
   }
 
   .monument {

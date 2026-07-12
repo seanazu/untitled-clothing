@@ -21,6 +21,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 35%;
   opacity: 0;
   transform: scale(1.04);
   transition:
@@ -142,7 +143,7 @@
 
 @media screen and (max-width: 760px) {
   .style-showcase {
-    min-height: 100svh;
+    min-height: 78svh;
   }
 
   .style-showcase__items {

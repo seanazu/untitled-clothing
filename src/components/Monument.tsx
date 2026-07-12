@@ -27,6 +27,7 @@ export default function Monument() {
         {drop.map((product, i) => (
           <AnimatedContent
             key={product.id}
+            className="monument__card-wrap"
             distance={80}
             duration={0.9}
             delay={i * 0.14}

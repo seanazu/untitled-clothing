@@ -36,7 +36,14 @@ export default function Hero() {
         if (!img?.complete || img.naturalWidth === 0) return;
         const cw = canvas.width;
         const ch = canvas.height;
-        const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+        // Portrait canvases (mobile) fit to width instead of covering — the
+        // frames are 16:9, so covering a tall narrow viewport zooms in hard
+        // and crops away most of the frame. Letterboxing into the dark bg
+        // reads far better than that.
+        const scale =
+          cw < ch
+            ? cw / img.naturalWidth
+            : Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
         const dw = img.naturalWidth * scale;
         const dh = img.naturalHeight * scale;
         ctx.clearRect(0, 0, cw, ch);

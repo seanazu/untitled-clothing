@@ -29,3 +29,26 @@
 .showcase__link:hover {
   text-decoration: underline;
 }
+
+@media screen and (max-width: 760px) {
+  .showcase__grid {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 1.1rem;
+    margin: 0 calc(var(--page-padding) * -1);
+    padding: 0 var(--page-padding) 0.5rem;
+  }
+
+  .showcase__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .showcase__card-wrap {
+    flex: 0 0 68%;
+    scroll-snap-align: start;
+  }
+}

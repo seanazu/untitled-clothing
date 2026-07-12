@@ -16,10 +16,11 @@ export default function ProductShowcase() {
           Shop All &rarr;
         </Link>
       </div>
-      <div className="product-grid">
+      <div className="product-grid showcase__grid">
         {featured.map((product, i) => (
           <AnimatedContent
             key={product.id}
+            className="showcase__card-wrap"
             distance={60}
             duration={0.8}
             delay={i * 0.1}
