@@ -10,8 +10,12 @@ import "./Hero.css";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const FRAME_COUNT = 85;
-const framePath = (i: number) =>
-  asset(`/hero-seq/frame-${String(i + 1).padStart(3, "0")}.webp`);
+// Phones get a dedicated 9:16 render of the same video so the emblem is
+// composed for the screen instead of cropped out of the 16:9 master.
+const framePath = (i: number, mobile: boolean) =>
+  asset(
+    `/hero-seq${mobile ? "-mobile" : ""}/frame-${String(i + 1).padStart(3, "0")}.webp`,
+  );
 
 /**
  * Scroll-scrubbed image sequence: the hero pins and the emblem reveals
@@ -28,6 +32,7 @@ export default function Hero() {
       const ctx = canvas?.getContext("2d");
       if (!section || !canvas || !ctx) return;
 
+      const isMobile = window.matchMedia("(max-width: 760px)").matches;
       const images: HTMLImageElement[] = [];
       let currentFrame = 0;
 
@@ -39,10 +44,10 @@ export default function Hero() {
         const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
         const dw = img.naturalWidth * scale;
         const dh = img.naturalHeight * scale;
-        // The emblem sits in the right half of the 16:9 frames. On portrait
-        // screens the cover-crop discards most of the width, so anchor the
-        // crop toward the emblem instead of dead center.
-        const focusX = cw < ch ? 0.72 : 0.5;
+        // When landscape frames land on a portrait canvas (tablets), anchor
+        // the crop on the emblem in the right half instead of dead center.
+        const focusX =
+          cw < ch && img.naturalWidth > img.naturalHeight ? 0.72 : 0.5;
         ctx.clearRect(0, 0, cw, ch);
         ctx.drawImage(img, (cw - dw) * focusX, (ch - dh) / 2, dw, dh);
       };
@@ -57,7 +62,7 @@ export default function Hero() {
 
       for (let i = 0; i < FRAME_COUNT; i++) {
         const img = new Image();
-        img.src = framePath(i);
+        img.src = framePath(i, isMobile);
         if (i === 0) {
           img.onload = () => draw(0);
         }
