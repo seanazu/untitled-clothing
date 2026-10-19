@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { asset } from "../utils/asset";
@@ -7,50 +6,39 @@ import "./StyleShowcase.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SLIDE_SECONDS = 5.5;
+const SLIDE_SECONDS = 5;
 
 const SLIDES = [
   {
+    src: asset("/images/style-1.webp"),
+    // where the subject's face sits in each frame, so the portrait
+    // crop on mobile keeps it in view instead of slicing it off
+    pos: "50% 24%",
     num: "01",
-    tag: "Void Drop 003 · 4-Color Orb Series",
-    title: "10 Shirts · 0 Explanations",
-    body: "4 Horizon Orb colorways (Cyan, Rose, Gold & Mint) + Blue Rose Scrawl in washed black, alongside 5 dual-color editions in black & off-white.",
-    mainImg: asset("/images/products/orb-4-shirts.webp"),
-    mainCaption: "FIG. 01 — ALL 4 HORIZON ORB COLORWAYS ON 340GSM BLACK",
-    mainAspect: "landscape" as const,
-    secondaryImg: asset("/images/products/orb-bunker-hang.webp"),
-    secondaryCaption: "BUNKER STAIRWELL HANG",
-    ctaLabel: "Shop The 4 Orb Shirts →",
-    ctaTo: "/products?filter=mono",
+    title: "Heavyweight cotton",
+    body: "340gsm, washed and enzyme-softened until it stopped arguing. Holds its shape for years.",
   },
   {
+    src: asset("/images/style-2.webp"),
+    pos: "50% 24%",
     num: "02",
-    tag: "Everyday Static · Black & Off-White",
     title: "Cut to move",
-    body: "Oversized through the shoulder, boxy drop-shoulder silhouette with thick 1.2\" ribbed collar. Every dual-color edition is cut in both Black and Off-White.",
-    mainImg: asset("/images/editorial-ladder-duo.webp"),
-    mainCaption: "FIG. 02 — DUAL-COLOR FIT IN BLACK & OFF-WHITE",
-    mainAspect: "portrait" as const,
-    secondaryImg: asset("/images/products/p1-bunker.webp"),
-    secondaryCaption: "DUAL-COLOR SKYLIGHT PAIR",
-    ctaLabel: "Shop Black & White Line →",
-    ctaTo: "/products?filter=dual",
+    body: "Oversized through the shoulder, tapered where it counts. It moves before you do.",
   },
   {
+    src: asset("/images/style-3.webp"),
+    pos: "50% 30%",
     num: "03",
-    tag: "340GSM Heavyweight Architecture",
     title: "Small runs only",
-    body: "Photographed suspended raw inside an abandoned concrete bunker. Dispatched in custom-stamped UNTITLED kraft & poly packaging — no restocks.",
-    mainImg: asset("/images/editorial-cluster.webp"),
-    mainCaption: "FIG. 03 — 6 PIECES SUSPENDED UNDER THE BUNKER SKYLIGHT",
-    mainAspect: "portrait" as const,
-    secondaryImg: asset("/images/products/p4-duo.webp"),
-    secondaryCaption: "CAGED TRIPLE ROSE · ON BODY",
-    ctaLabel: "Shop All 10 Shirts →",
-    ctaTo: "/products",
+    body: "10 shirts, numbered drops, no restocks. When it's gone, it never existed.",
   },
 ];
 
+/**
+ * kOTR-style auto-advancing showcase: full-bleed background slides crossfade
+ * on a timer; each caption carries a loading bar that fills while its slide
+ * is live, then hands off to the next. Inactive captions sit dimmed.
+ */
 export default function StyleShowcase() {
   const sectionRef = useRef<HTMLElement>(null);
   const barRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -58,6 +46,7 @@ export default function StyleShowcase() {
   const [active, setActive] = useState(0);
   const [running, setRunning] = useState(false);
 
+  // Start/stop the rotation with section visibility (and reduced motion).
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const section = sectionRef.current;
@@ -71,6 +60,7 @@ export default function StyleShowcase() {
     return () => st.kill();
   }, []);
 
+  // One bar-fill tween per active slide while running.
   useEffect(() => {
     const bar = barRefs.current[active];
     if (!bar) return;
@@ -91,109 +81,53 @@ export default function StyleShowcase() {
     };
   }, [active, running]);
 
-  const currentSlide = SLIDES[active] ?? SLIDES[0];
-
   return (
     <section ref={sectionRef} className="style-showcase">
-      <div className="style-showcase__inner">
-        {/* Left Column: Editorial Headline, Chapters & CTA */}
-        <div className="style-showcase__left">
-          <div className="style-showcase__top-pill">
-            <span className="style-showcase__top-dot" />
-            <span>
-              {currentSlide.num} / 03 &middot; {currentSlide.tag}
+      <div className="style-showcase__bgs" aria-hidden="true">
+        {SLIDES.map((slide, i) => (
+          <img
+            key={slide.num}
+            src={slide.src}
+            alt=""
+            loading="lazy"
+            style={{ objectPosition: slide.pos }}
+            className={
+              "style-showcase__bg" + (i === active ? " is-active" : "")
+            }
+          />
+        ))}
+        <div className="style-showcase__tint" />
+      </div>
+
+      <h2 className="style-showcase__title">
+        Built for nothing
+        <br />
+        in particular.
+      </h2>
+
+      <div className="style-showcase__items">
+        {SLIDES.map((slide, i) => (
+          <button
+            key={slide.num}
+            type="button"
+            className={
+              "style-showcase__item" + (i === active ? " is-active" : "")
+            }
+            onClick={() => setActive(i)}
+          >
+            <span className="style-showcase__bar">
+              <span
+                className="style-showcase__bar-fill"
+                ref={(el) => {
+                  barRefs.current[i] = el;
+                }}
+              />
             </span>
-          </div>
-
-          <div className="style-showcase__head">
-            <h2 className="style-showcase__title">
-              Built for nothing
-              <br />
-              in particular.
-            </h2>
-            <p className="style-showcase__scrawl">
-              no meaning, just heavyweight energy.
-            </p>
-          </div>
-
-          <div className="style-showcase__items" role="tablist">
-            {SLIDES.map((slide, i) => (
-              <button
-                key={slide.num}
-                type="button"
-                role="tab"
-                aria-selected={i === active}
-                className={
-                  "style-showcase__item" + (i === active ? " is-active" : "")
-                }
-                onClick={() => setActive(i)}
-              >
-                <span className="style-showcase__bar">
-                  <span
-                    className="style-showcase__bar-fill"
-                    ref={(el) => {
-                      barRefs.current[i] = el;
-                    }}
-                  />
-                </span>
-                <div className="style-showcase__item-head">
-                  <span className="style-showcase__num">{slide.num}</span>
-                  <span className="style-showcase__item-title">
-                    {slide.title}
-                  </span>
-                </div>
-                <span className="style-showcase__item-body">{slide.body}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="style-showcase__actions">
-            <Link
-              to={currentSlide.ctaTo}
-              className="btn btn--primary style-showcase__cta"
-            >
-              {currentSlide.ctaLabel}
-            </Link>
-            <Link to="/collections" className="btn style-showcase__cta-secondary">
-              View Both Collections
-            </Link>
-          </div>
-        </div>
-
-        {/* Right Column: Uncropped Dual-Frame Visual Stage */}
-        <div className="style-showcase__right">
-          {SLIDES.map((slide, i) => (
-            <div
-              key={slide.num}
-              className={
-                "style-showcase__stage" +
-                (i === active ? " is-active" : "") +
-                ` style-showcase__stage--${slide.mainAspect}`
-              }
-              aria-hidden={i !== active}
-            >
-              <figure className="style-showcase__main-frame">
-                <img
-                  src={slide.mainImg}
-                  alt={slide.mainCaption}
-                  loading="lazy"
-                />
-                <figcaption className="style-showcase__frame-caption">
-                  <span>{slide.mainCaption}</span>
-                </figcaption>
-              </figure>
-
-              <figure className="style-showcase__secondary-frame">
-                <img
-                  src={slide.secondaryImg}
-                  alt={slide.secondaryCaption}
-                  loading="lazy"
-                />
-                <figcaption>{slide.secondaryCaption}</figcaption>
-              </figure>
-            </div>
-          ))}
-        </div>
+            <span className="style-showcase__num">{slide.num}</span>
+            <span className="style-showcase__item-title">{slide.title}</span>
+            <span className="style-showcase__item-body">{slide.body}</span>
+          </button>
+        ))}
       </div>
     </section>
   );

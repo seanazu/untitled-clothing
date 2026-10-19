@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { sizes, type Product } from "../products-data";
 
-type ViewMode = "back" | "front" | "fit" | "bunker";
+type ViewMode = "back" | "front" | "fit";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
@@ -21,13 +21,11 @@ export default function ProductCard({ product }: { product: Product }) {
       ? activeColor.backImage
       : view === "front"
         ? activeColor.frontImage
-        : view === "fit"
-          ? product.fitImage
-          : product.bunkerImage;
+        : product.fitImage;
 
   const handleColorSelect = (index: number) => {
     setSelectedColorIdx(index);
-    if (view === "fit" || view === "bunker") {
+    if (view === "fit") {
       setView("back");
     }
   };
@@ -92,15 +90,6 @@ export default function ProductCard({ product }: { product: Product }) {
             onClick={() => setView("fit")}
           >
             {isOrbSeries ? "All 4" : "Look"}
-          </button>
-          <button
-            type="button"
-            className={
-              "product-card__view-btn" + (view === "bunker" ? " is-active" : "")
-            }
-            onClick={() => setView("bunker")}
-          >
-            Bunker
           </button>
         </div>
       </div>
