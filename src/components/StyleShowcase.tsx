@@ -11,26 +11,27 @@ const SLIDE_SECONDS = 5;
 const SLIDES = [
   {
     src: asset("/images/style-1.webp"),
-    // where the subject's face sits in each frame, so the portrait
-    // crop on mobile keeps it in view instead of slicing it off
-    pos: "50% 24%",
+    mobileSrc: asset("/images/style-1-mobile.webp"),
+    pos: "50% 42%",
     num: "01",
     title: "Heavyweight cotton",
     body: "340gsm, washed and enzyme-softened until it stopped arguing. Holds its shape for years.",
   },
   {
     src: asset("/images/style-2.webp"),
-    pos: "50% 24%",
+    mobileSrc: asset("/images/style-2-mobile.webp"),
+    pos: "50% 35%",
     num: "02",
     title: "Cut to move",
     body: "Oversized through the shoulder, tapered where it counts. It moves before you do.",
   },
   {
     src: asset("/images/style-3.webp"),
-    pos: "50% 30%",
+    mobileSrc: asset("/images/style-3-mobile.webp"),
+    pos: "50% 45%",
     num: "03",
     title: "Small runs only",
-    body: "10 shirts, numbered drops, no restocks. When it's gone, it never existed.",
+    body: "Numbered drops, no restocks. When it's gone, it never existed.",
   },
 ];
 
@@ -85,16 +86,21 @@ export default function StyleShowcase() {
     <section ref={sectionRef} className="style-showcase">
       <div className="style-showcase__bgs" aria-hidden="true">
         {SLIDES.map((slide, i) => (
-          <img
+          <picture
             key={slide.num}
-            src={slide.src}
-            alt=""
-            loading="lazy"
-            style={{ objectPosition: slide.pos }}
             className={
               "style-showcase__bg" + (i === active ? " is-active" : "")
             }
-          />
+          >
+            <source media="(max-width: 760px)" srcSet={slide.mobileSrc} />
+            <img
+              src={slide.src}
+              alt=""
+              loading="lazy"
+              style={{ objectPosition: slide.pos }}
+              className="style-showcase__bg-img"
+            />
+          </picture>
         ))}
         <div className="style-showcase__tint" />
       </div>
