@@ -39,9 +39,9 @@
 
 .monument__cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
-  margin-top: 4rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
+  margin-top: 3.5rem;
 }
 
 /* ---- light editorial card overrides (no boxes, no chrome) ---- */

@@ -8,14 +8,16 @@ export default function Footer() {
       <div className="footer__row">
         <div className="footer__brand">
           <Link to="/" className="footer__logo" aria-label="Untitled — home">
-            <img src={asset("/brand/logo-red-outline.png")} alt="" />
+            <img src={asset("/brand/logo-light.png")} alt="UNTITLED" />
           </Link>
           <span className="footer__scrawl">no meaning, just energy.</span>
         </div>
         <nav className="footer__links" aria-label="Footer">
-          <Link to="/products">Shop</Link>
+          <Link to="/products">Shop All (10)</Link>
           <Link to="/collections">Collections</Link>
           <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/checkout">Checkout</Link>
           <a
             href="https://instagram.com"
             target="_blank"
@@ -26,8 +28,10 @@ export default function Footer() {
         </nav>
       </div>
       <div className="footer__bottom">
-        <span>&copy; 2026 UNTITLED</span>
-        <span className="footer__mono">made nowhere &middot; defined never</span>
+        <span>&copy; 2026 UNTITLED &middot; 340GSM BUNKER ARCHIVE</span>
+        <span className="footer__mono">
+          shopify storefront ready &middot; made nowhere &middot; defined never
+        </span>
       </div>
     </footer>
   );

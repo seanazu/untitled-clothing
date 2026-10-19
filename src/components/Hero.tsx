@@ -2,7 +2,6 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import SplitText from "./reactbits/SplitText";
 import LiveClock from "./LiveClock";
 import { asset } from "../utils/asset";
 import "./Hero.css";
@@ -129,19 +128,7 @@ export default function Hero() {
 
       <div className="hero__center">
         <p className="hero__eyebrow">your favourite nothing is back</p>
-        <SplitText
-          text="Don't think. Just wear it."
-          tag="h1"
-          className="hero__title"
-          splitType="chars"
-          delay={28}
-          duration={0.9}
-          textAlign="left"
-          from={{ opacity: 0, y: 60 }}
-          to={{ opacity: 1, y: 0 }}
-          threshold={0.05}
-          rootMargin="0px"
-        />
+        <h1 className="hero__title">Don't think. Just wear it.</h1>
         <p className="hero__scroll-hint">scroll — it reveals itself</p>
       </div>
     </section>

@@ -1,29 +1,46 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import FadeContent from "../components/reactbits/FadeContent";
 import ProductCard from "../components/ProductCard";
-import { products, type Product } from "../products-data";
+import { products } from "../products-data";
 import "../styles/shop.css";
 
-const CATEGORIES: { label: string; value: "all" | Product["category"] | "new" }[] =
-  [
-    { label: "All", value: "all" },
-    { label: "New", value: "new" },
-    { label: "Tees", value: "tees" },
-    { label: "Outerwear", value: "outerwear" },
-    { label: "Bottoms", value: "bottoms" },
-    { label: "Accessories", value: "accessories" },
-  ];
+const CATEGORIES: {
+  label: string;
+  value: "all" | "dual" | "mono";
+}[] = [
+  { label: "All 10 Shirts", value: "all" },
+  { label: "Black & White Line (5)", value: "dual" },
+  { label: "One Color · Black Only (5)", value: "mono" },
+];
 
 export default function Products() {
-  const [params] = useSearchParams();
-  const [filter, setFilter] = useState<string>(
-    params.get("filter") === "new" ? "new" : "all",
-  );
+  const [params, setParams] = useSearchParams();
+  const paramFilter = params.get("filter");
+  const initialFilter =
+    paramFilter === "new" || paramFilter === "mono"
+      ? "mono"
+      : paramFilter === "dual"
+        ? "dual"
+        : "all";
+
+  const [filter, setFilter] = useState<string>(initialFilter);
+
+  useEffect(() => {
+    setFilter(initialFilter);
+  }, [initialFilter]);
+
+  const handleSelectFilter = (val: string) => {
+    setFilter(val);
+    if (val === "all") {
+      setParams({}, { replace: true });
+    } else {
+      setParams({ filter: val }, { replace: true });
+    }
+  };
 
   const visible = useMemo(() => {
     if (filter === "all") return products;
-    if (filter === "new") return products.filter((p) => p.isNew);
     return products.filter((p) => p.category === filter);
   }, [filter]);
 
@@ -32,8 +49,8 @@ export default function Products() {
       <section className="page-hero">
         <h1 className="page-hero__title">Shop All</h1>
         <p className="page-hero__subtitle">
-          hopefully you remember what you ordered, cause we don't write
-          descriptions.
+          10 shirts. 5 in black &amp; white, 5 in one color. click any piece for
+          full details &amp; sizing.
         </p>
       </section>
 
@@ -43,7 +60,7 @@ export default function Products() {
             key={cat.value}
             type="button"
             className={"filter-chip" + (filter === cat.value ? " is-active" : "")}
-            onClick={() => setFilter(cat.value)}
+            onClick={() => handleSelectFilter(cat.value)}
           >
             {cat.label}
           </button>

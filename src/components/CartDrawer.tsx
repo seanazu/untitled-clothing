@@ -1,8 +1,42 @@
-import { useCart } from "../context/CartContext";
+import { Link, useNavigate } from "react-router-dom";
+import { FREE_SHIPPING_THRESHOLD, useCart } from "../context/CartContext";
+import { createShopifyCheckoutUrl, getShopifyStatus } from "../lib/shopify";
 
 export default function CartDrawer() {
-  const { items, subtotal, isDrawerOpen, closeDrawer, removeAt, checkout } =
-    useCart();
+  const {
+    items,
+    subtotal,
+    freeShippingRemaining,
+    hasFreeShipping,
+    isDrawerOpen,
+    closeDrawer,
+    updateQty,
+    removeAt,
+  } = useCart();
+  const navigate = useNavigate();
+  const shopifyStatus = getShopifyStatus();
+
+  const progressPct = Math.min(
+    100,
+    Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100),
+  );
+
+  const handleCheckoutClick = async () => {
+    if (items.length === 0) return;
+    if (shopifyStatus.connected) {
+      try {
+        const url = await createShopifyCheckoutUrl(items);
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+      } catch {
+        // Fallback to /checkout
+      }
+    }
+    closeDrawer();
+    navigate("/checkout");
+  };
 
   return (
     <>
@@ -16,7 +50,7 @@ export default function CartDrawer() {
         aria-hidden={!isDrawerOpen}
       >
         <div className="cart-drawer__header">
-          <span>Your Bag</span>
+          <span>Your Bag ({items.reduce((s, i) => s + i.qty, 0)})</span>
           <button
             className="cart-drawer__close"
             onClick={closeDrawer}
@@ -26,25 +60,75 @@ export default function CartDrawer() {
             &times;
           </button>
         </div>
+
+        <div className="cart-drawer__shipping">
+          <p className="cart-drawer__shipping-text">
+            {hasFreeShipping
+              ? "Free bunker dispatch unlocked ✓"
+              : `Add $${freeShippingRemaining} more for free shipping`}
+          </p>
+          <div className="cart-drawer__shipping-bar">
+            <span style={{ width: `${progressPct}%` }} />
+          </div>
+        </div>
+
         <div className="cart-drawer__items">
           {items.length === 0 ? (
-            <p className="cart-drawer__empty">
-              Your bag is empty. Go find something you can't define.
-            </p>
+            <div className="cart-drawer__empty">
+              <p>Your bag is empty. Go find something you can't define.</p>
+              <Link
+                to="/products"
+                className="btn"
+                onClick={closeDrawer}
+              >
+                Shop All 10 Shirts &rarr;
+              </Link>
+            </div>
           ) : (
             items.map((item, index) => (
-              <div className="cart-item" key={`${item.productId}-${item.size}`}>
-                <img
-                  className="cart-item__image"
-                  src={item.image}
-                  alt={item.name}
-                />
+              <div
+                className="cart-item"
+                key={`${item.productId}-${item.color}-${item.size}`}
+              >
+                <Link
+                  to={`/products/${item.handle}`}
+                  onClick={closeDrawer}
+                >
+                  <img
+                    className="cart-item__image"
+                    src={item.image}
+                    alt={item.name}
+                  />
+                </Link>
                 <div>
-                  <p className="cart-item__name">{item.name}</p>
+                  <Link
+                    to={`/products/${item.handle}`}
+                    className="cart-item__name"
+                    onClick={closeDrawer}
+                  >
+                    {item.name}
+                  </Link>
                   <p className="cart-item__meta">
-                    Size {item.size} &middot; Qty {item.qty} &middot; $
+                    {item.color} &middot; Size {item.size} &middot; $
                     {item.price}
                   </p>
+                  <div className="cart-item__controls">
+                    <button
+                      type="button"
+                      onClick={() => updateQty(index, -1)}
+                      aria-label="Decrease quantity"
+                    >
+                      &minus;
+                    </button>
+                    <span>{item.qty}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateQty(index, 1)}
+                      aria-label="Increase quantity"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
                 <button
                   className="cart-item__remove"
@@ -65,10 +149,13 @@ export default function CartDrawer() {
           <button
             className="btn btn--primary"
             style={{ width: "100%" }}
-            onClick={checkout}
+            onClick={handleCheckoutClick}
+            disabled={items.length === 0}
             type="button"
           >
-            Checkout
+            {shopifyStatus.connected
+              ? "Proceed to Shopify Checkout →"
+              : "Proceed to Checkout →"}
           </button>
         </div>
       </aside>

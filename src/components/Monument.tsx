@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import AnimatedContent from "./reactbits/AnimatedContent";
 import ProductCard from "./ProductCard";
 import { products } from "../products-data";
@@ -9,17 +10,22 @@ import "./Monument.css";
  * products in light editorial cards.
  */
 export default function Monument() {
-  const drop = products.filter((p) => p.isNew).slice(0, 3);
+  const drop = products.filter((p) => p.isNew).slice(0, 4);
 
   return (
     <section className="monument">
       <AnimatedContent distance={70} duration={1}>
         <div className="monument__head">
-          <p className="monument__eyebrow">The Void Drop &middot; 003</p>
+          <p className="monument__eyebrow">The Void Drop &middot; 003 &middot; 05 Editions</p>
           <h2 className="monument__heading">
             Untitled is what remains<br />when nothing needs to be said.
           </h2>
           <p className="monument__scrawl">set in stone. sort of.</p>
+          <div style={{ marginTop: "1.25rem" }}>
+            <Link to="/products?filter=mono" className="btn">
+              Explore All 5 One-Color Editions &rarr;
+            </Link>
+          </div>
         </div>
       </AnimatedContent>
 
@@ -30,7 +36,7 @@ export default function Monument() {
             className="monument__card-wrap"
             distance={80}
             duration={0.9}
-            delay={i * 0.14}
+            delay={i * 0.12}
             threshold={0.15}
           >
             <div className="monument__card">

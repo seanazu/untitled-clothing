@@ -4,9 +4,18 @@
 
 .showcase__heading-row {
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
   padding: 0 var(--page-padding) 2rem;
+}
+
+.showcase__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0 0 0.45rem;
 }
 
 .showcase__heading {
@@ -48,7 +57,7 @@
   }
 
   .showcase__card-wrap {
-    flex: 0 0 68%;
+    flex: 0 0 74%;
     scroll-snap-align: start;
   }
 }

@@ -26,12 +26,14 @@ export default function SearchOverlay({ open, onClose }: Props) {
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return [];
+    if (!q) return products.slice(0, 4);
     return products.filter(
       (p) =>
         p.name.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q) ||
-        p.blurb.toLowerCase().includes(q),
+        p.blurb.toLowerCase().includes(q) ||
+        p.story.toLowerCase().includes(q) ||
+        p.skuPrefix.toLowerCase().includes(q),
     );
   }, [query]);
 
@@ -41,13 +43,16 @@ export default function SearchOverlay({ open, onClose }: Props) {
       aria-hidden={!open}
       onClick={onClose}
     >
-      <div className="search-overlay__panel" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="search-overlay__panel"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="search-overlay__bar">
           <input
             ref={inputRef}
             className="search-overlay__input"
             type="search"
-            placeholder="Search for something undefined…"
+            placeholder="Search the 10 shirts (rose, spine, orb, cyan, black, white…)"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -61,30 +66,26 @@ export default function SearchOverlay({ open, onClose }: Props) {
           </button>
         </div>
 
-        {query.trim() !== "" && (
-          <div className="search-overlay__results">
-            {results.length === 0 ? (
-              <p className="search-overlay__empty">
-                Nothing. Which is on brand, honestly.
-              </p>
-            ) : (
-              results.map((p) => (
-                <Link
-                  key={p.id}
-                  to="/products"
-                  className="search-overlay__result"
-                  onClick={onClose}
-                >
-                  <img src={p.image} alt={p.name} />
-                  <span className="search-overlay__result-name">{p.name}</span>
-                  <span className="search-overlay__result-price">
-                    ${p.price}
-                  </span>
-                </Link>
-              ))
-            )}
-          </div>
-        )}
+        <div className="search-overlay__results">
+          {results.length === 0 ? (
+            <p className="search-overlay__empty">
+              Nothing found. Which is on brand, honestly.
+            </p>
+          ) : (
+            results.map((p) => (
+              <Link
+                key={p.id}
+                to={`/products/${p.handle}`}
+                className="search-overlay__result"
+                onClick={onClose}
+              >
+                <img src={p.image} alt={p.name} />
+                <span className="search-overlay__result-name">{p.name}</span>
+                <span className="search-overlay__result-price">${p.price}</span>
+              </Link>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

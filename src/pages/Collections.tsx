@@ -4,8 +4,8 @@ import { products } from "../products-data";
 import "../styles/shop.css";
 
 export default function Collections() {
-  const voidDrop = products.filter((p) => p.isNew);
-  const everydayStatic = products.filter((p) => !p.isNew);
+  const dualColorShirts = products.filter((p) => p.category === "dual");
+  const singleColorShirts = products.filter((p) => p.category === "mono");
 
   return (
     <>
@@ -18,18 +18,22 @@ export default function Collections() {
 
       <FadeContent duration={500}>
         <section className="collection-section">
-          <h2 className="collection-section__title">Void Drop</h2>
+          <h2 className="collection-section__title">
+            Everyday Static &middot; Black &amp; White (05)
+          </h2>
           <div className="product-grid">
-            {voidDrop.map((product) => (
+            {dualColorShirts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </section>
 
         <section className="collection-section">
-          <h2 className="collection-section__title">Everyday Static</h2>
+          <h2 className="collection-section__title">
+            Void Drop &middot; One Color (05)
+          </h2>
           <div className="product-grid">
-            {everydayStatic.map((product) => (
+            {singleColorShirts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
