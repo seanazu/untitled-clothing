@@ -308,26 +308,34 @@
 
 @media screen and (max-width: 960px) {
   .manifesto {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .about-pillars {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bunker-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .bunker-gallery__item,
   .bunker-gallery__item--wide {
-    grid-column: span 6;
+    grid-column: span 1;
   }
 }
 
 @media screen and (max-width: 640px) {
   .manifesto__visuals {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bunker-gallery {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .bunker-gallery__item,
   .bunker-gallery__item--wide {
-    grid-column: span 12;
+    grid-column: 1 / -1;
   }
 }
